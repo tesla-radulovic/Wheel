@@ -4,7 +4,7 @@ import wvlet.airframe.http.*
 
 @RPC
 trait Greeter {
-  def greet(name: String): String = s"Hello, $name!"
+  def greet(name: String): String //= s"Hello, $name!"
   def getTime: String = java.time.Instant.now.toString
 }
 
