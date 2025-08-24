@@ -9,8 +9,12 @@ object Server extends LogSupport {
 
   
   def main(args: Array[String]): Unit = {
-    val router = RxRouter.of[GreeterImpl]  // Auto-generates routes from RPC trait
-
+    val router =
+      RxRouter.of(
+        RxRouter.of[GreeterImpl],  // Auto-generates routes from RPC trait
+        RxRouter.of[ServerApi]
+        )
+        
     Netty.server
       .withRouter(router)
       .withPort(8080)
