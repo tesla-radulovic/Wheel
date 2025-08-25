@@ -5,7 +5,16 @@ object Helper:
 
   def digest_leading_whitespace ( text : String ) : Array[(Int, String)] =
       for
-          line <- text.split("\n")
+          line <-
+            for
+              line <-
+                text.split("\n") match
+                  case array : Array[String | Null] => array
+                  case _ => Array.empty[String | Null]
+            yield
+              line match
+                case s : String => s
+                case _ => ""
           if line != ""
       yield
           var i = 0
@@ -60,11 +69,12 @@ object Helper:
           yield for
               i <- ((at + 1) to (next - 1)).toList
               if expanded(i)._1 == level + 1
+              list <- make_list( expanded, i )
           yield
               if expanded(i)._2.length == 1 then
-                  Head( make_list( expanded, i ).getOrElse( null ))
+                  Head( list )
               else
-                  Item( expanded(i)._2.splitAt(1)._2, make_list( expanded, i ))
+                  Item( expanded(i)._2.splitAt(1)._2, Some(list) )
       if childrenO == Some(Nil) then
           childrenO = None
       val aaa = 
@@ -75,5 +85,8 @@ object Helper:
                   UnorderedList( children )
               else
                   OrderedList( children )
+      aaa
   def like_a_boss ( expanded : Array[(Int, String)] ) : Option[NodeList] =
       make_list( ((0,"dummy") :: ( for (i,s) <- expanded.toList yield (i+1,s) )).toArray )
+  def parse ( text : String ) : Option[NodeList] =
+      like_a_boss ( expand ( digest_leading_whitespace(text) ) )

@@ -42,6 +42,7 @@ case class OrderedList ( val list : List[Node]) extends NodeList:
 trait Greeter {
   def greet(name: String): String //= s"Hello, $name!"
   def getTime: String = java.time.Instant.now.toString
+  def parseNodeList(text: String): Option[NodeList]
 }
 
 object Greeter extends RxRouterProvider {
