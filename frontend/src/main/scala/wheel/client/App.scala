@@ -63,7 +63,11 @@ object App extends LogSupport {
     // Handle button click
     button.onclick = { _ =>
       info("Sending greet request for name: Test")
-      val a = rpcClient.Greeter.greet("Test") /*.run { response =>
+      val a = rpcClient.Greeter.parseNodeList(""">Hello
+         *This
+         *Is
+         *>A
+          >Test""") /*.run { response =>
         info(s"Received response: $response")
         dom.console.log(s"API Response: $response")
       }*/
