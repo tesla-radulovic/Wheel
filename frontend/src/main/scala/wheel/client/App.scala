@@ -41,6 +41,7 @@ object App {
 package wheel.client
 
 import wheel.api.ServiceRPC
+import wheel.api.Student
 import org.scalajs.dom
 import org.scalajs.dom.html
 import wvlet.airframe.http.Http
@@ -63,18 +64,24 @@ object App extends LogSupport {
     // Handle button click
     button.onclick = { _ =>
       info("Sending greet request for name: Test")
-      val a = rpcClient.Greeter.parseNodeList(""">Hello
-         *This
-         *Is
-         *>A
-          >Test""") /*.run { response =>
+/*      val a = rpcClient.Greeter.parseNodeList(
+"""
+>Hello
+ *This
+ *Is
+ *>A
+  >Test""")*/  /*.run { response =>
         info(s"Received response: $response")
         dom.console.log(s"API Response: $response")
       }*/
+      val a = rpcClient.Greeter.transmorgify( Left(Student( "Paul" )) )
       println( a )
       a.run { event =>
         println("event")
         println(event)
+        // event match
+          // case None => println("none")
+          // case Some(_) => println("some")
         //event match {
          //  case OnNext(value) => println(value)// Handle the successful value (e.g., println(value) or store it)
         //  case OnError(error) => println(error)// Handle any exception (e.g., throw error or log it)

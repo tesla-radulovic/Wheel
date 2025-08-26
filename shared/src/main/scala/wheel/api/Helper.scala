@@ -69,12 +69,17 @@ object Helper:
           yield for
               i <- ((at + 1) to (next - 1)).toList
               if expanded(i)._1 == level + 1
-              list <- make_list( expanded, i )
+              // list <- make_list( expanded, i )
           yield
+              val list = make_list( expanded, i )
               if expanded(i)._2.length == 1 then
-                  Head( list )
+                  // Head( list )
+                  list match
+                    case Some(thing) => Head(thing)
+                    case None => Item( expanded(i)._2.splitAt(1)._2, list)
               else
-                  Item( expanded(i)._2.splitAt(1)._2, Some(list) )
+                  Item( expanded(i)._2.splitAt(1)._2, list )
+      // println(childrenO)
       if childrenO == Some(Nil) then
           childrenO = None
       val aaa = 
@@ -89,4 +94,7 @@ object Helper:
   def like_a_boss ( expanded : Array[(Int, String)] ) : Option[NodeList] =
       make_list( ((0,"dummy") :: ( for (i,s) <- expanded.toList yield (i+1,s) )).toArray )
   def parse ( text : String ) : Option[NodeList] =
-      like_a_boss ( expand ( digest_leading_whitespace(text) ) )
+      println ( digest_leading_whitespace(text).mkString(",\n") )
+      val out = like_a_boss ( expand ( digest_leading_whitespace(text) ) )
+      println(out)
+      out

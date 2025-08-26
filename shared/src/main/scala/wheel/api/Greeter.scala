@@ -38,11 +38,16 @@ case class UnorderedList ( val list : List[Node]) extends NodeList:
 case class OrderedList ( val list : List[Node]) extends NodeList:
     override def toString: String = ">" + list.mkString( "\n>" )
 
+case class Student(name: String)
+case class Teacher(name: String)
+// type Member = Either[Student,Teacher]
+
 @RPC
 trait Greeter {
   def greet(name: String): String //= s"Hello, $name!"
   def getTime: String = java.time.Instant.now.toString
-  def parseNodeList(text: String): Option[NodeList]
+  // def parseNodeList(text: String): Option[NodeList]
+  def transmorgify( member: Either[Student,Teacher] ) : Either[Student,Teacher]
 }
 
 object Greeter extends RxRouterProvider {
